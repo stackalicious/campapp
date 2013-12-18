@@ -33,8 +33,9 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> <!-- royalslider, jQuery cycle, superfish menu -->
 	<script class="rs-file" src="public/js/jquery.royalslider.min.js"></script>
 	
-	<script src="public/js/datescript.js"></script>	
-
+	<script src="public/js/datescript.js"></script>
+	
+    <script >campsiteHost="http://campsite.local/app_dev.php";</script>
 </head>
 <body>
 <noscript>
@@ -47,8 +48,8 @@
 		
 		<div id="topNav">
 			<ul>
-				<li><a href="http://www.campsite.org/contact">Contact Us</a></li>
-				<li><a href="http://www.campsite.org/stackup">Campsite Group</a></li>
+				<li><a id="contact2" href="/contact">Contact Us</a></li>
+				<li><a id="stackupgrp2" href="/stackup">Campsite Group</a></li>
 			</ul>
 		</div>
 
@@ -83,62 +84,80 @@
 				    	}
 					});
 					
-					var url = 'http://campsite.local/app_dev.php/api/groups/2';
-		            function populateGroupPanel(){
-		                $.getJSON(url + '?callback=?', null,
-                            function(data) {  
-                                //Get the 'Solutions' entry
-                                solutionsEs = null;
-                                problemsEs = null;
-                                eventLocationsEs = null;
-                                                                           
-                                entrySets = data.entrySets;
-                                for (i in entrySets){
-                                    var es = entrySets[i];
-                                    
-                                    //alert(JSON.stringify(entrySets[es]));
-                                    if(es.name == 'Solutions') {
-                                        solutionsEs = es;
-                                    } else if(es.name == 'Problems') {
-                                        problemsEs = es;
-                                    } else if(es.name == 'Potential StackUp Locations') {
-                                        eventLocationsEs = es;
-                                    }
-                                }
+					$("#about").attr("href", campsiteHost + $("#about").attr("href"));
+					$("#home").attr("href", campsiteHost + $("#home").attr("href"));
+					$("#contact").attr("href", campsiteHost + $("#contact").attr("href"));
+					$("#contact2").attr("href", campsiteHost + $("#contact2").attr("href"));
+					$("#stackupgrp").attr("href", campsiteHost + $("#stackupgrp").attr("href"));
+					$("#stackupgrp2").attr("href", campsiteHost + $("#stackupgrp2").attr("href"));
+					$("#signin").attr("href", campsiteHost + $("#signin").attr("href"));
+					$("#createaccnt").attr("href", campsiteHost + $("#createaccnt").attr("href"));
+					$("#join").attr("href", campsiteHost + $("#join").attr("href"));
+					
+					$("#mps").attr("href", campsiteHost + $("#mps").attr("href"));
+					$("#mcp").attr("href", campsiteHost + $("#mcp").attr("href"));
+					$("#mre").attr("href", campsiteHost + $("#mre").attr("href"));
+					$("#mwe").attr("href", campsiteHost + $("#mwe").attr("href"));
+					
+					
+					var url = campsiteHost + '/api/groups/2';
+		            $.getJSON(url + '?callback=?', null,
+                        function(data) {  
+                            //Get the 'Solutions' entry
+                            solutionsEs = null;
+                            problemsEs = null;
+                            eventLocationsEs = null;
+                                                                       
+                            entrySets = data.entrySets;
+                            for (i in entrySets){
+                                var es = entrySets[i];
                                 
-                                for(j in solutionsEs.entries) {
-                                    var entry = solutionsEs.entries[j];
-                                    $('#solutions').append('<li>' + entry.name + '</li>');
+                                if(es.name == 'Solutions') {
+                                    solutionsEs = es;
+                                } else if(es.name == 'Problems') {
+                                    problemsEs = es;
+                                } else if(es.name == 'Potential StackUp Locations') {
+                                    eventLocationsEs = es;
                                 }
-                                for(j in problemsEs.entries) {
-                                    var entry = problemsEs.entries[j];
-                                    $('#problems').append('<li>' + entry.name + '</li>');
-                                }
-                                for(j in eventLocationsEs.entries) {
-                                    var entry = eventLocationsEs.entries[j];
-                                    $('#locations').append(
-                                        '<tr class="fill"><td>' + entry.name + '</td>' +
-                                        '<td>' + entry.numVotes + '</td></tr>'
-                                    );
-                                }
+                            }
+                            
+                            for(i in solutionsEs.entries) {
+                                var entry = solutionsEs.entries[i];
+                                $('#solutions').append('<li><a href="'+entry.url+'">' + entry.name + '</a></li>');
+                            }
+                            
+                            for(i in problemsEs.entries) {
+                                var entry = problemsEs.entries[i];
+                                $('#problems').append('<li><a href="'+entry.url+'">' + entry.name + '</a></li>');
+                            }
+                            
+                            for(i in eventLocationsEs.entries) {
+                                var entry = eventLocationsEs.entries[i];
+                                $('#locations').append(
+                                    '<tr '+(i%2==0?'class="fill"':'')+'><td><a href="' + entry.url + '">' + entry.name + '</td>' +
+                                    '<td>' + entry.numVotes + '</td></tr>'
+                                );
+                            }
+                            
+                            for(i in data.pastEvents) {
+                                var event = data.pastEvents[i];
+                                $('#pastEvents').append(
+                                    '<tr '+(i%2==0?'class="fill"':'')+'><td><a href="' + event.url + '">' + event.name + '</a></td>' +
+                                    '<td>' + event.daterange + '</td></tr>'
+                                );
+                            }
+                            
+                            $('#nextEventName').append('<a href="'+data.nextEvent['url']+'">'+data.nextEvent['name']+'</a>');
+                            $('#nextEventDateRange').append(data.nextEvent.daterange);
+                            $('#nextEventLocation').append(
+                                data.nextEvent['location'] + '<br/>' + 
+                                data.nextEvent['address1'] + '<br/>' + 
+                                data.nextEvent['address2']);
                                 
-                                for(j in data.pastEvents) {
-                                    var event = data.pastEvents[j];
-                                    $('#pastEvents').append(
-                                        '<tr class="fill"><td>' + event.name + '</td>' +
-                                        '<td>' + event.daterange + '</td></tr>'
-                                    );
-                                }
-                                
-                                $('#nextEventName').append(data.nextEvent['name']);
-                                $('#nextEventDateRange').append(data.nextEvent.daterange);
-                                $('#nextEventLocation').append(
-                                    data.nextEvent['location'] + '<br/>' + data.nextEvent['address1'] + '<br/>' + data.nextEvent['address2']);
-                                
-                            });
-                    }
-                    
-					populateGroupPanel();
+                            address = encodeURIComponent(data.nextEvent['address1']+" "+data.nextEvent['address2']);                            
+                            $("#gmapiframe").attr("src", $("#gmapiframe").attr("src") + address);
+                            $("#gmapa").attr("href", $("#gmapa").attr("href") + address);
+                        });
 				});
 			</script>
 			
@@ -148,7 +167,7 @@
 					<ul id="problems">
 					</ul>
 					
-					<a href="#" class="btn bld spcr-t3 right">View Problems &rsaquo;</a>
+					<a id="mcp" href="/list/4" class="btn bld spcr-t3 right">View Problems &rsaquo;</a>
 				</div>
 				<div class="cBxRt">
 					<h2>Most Wanted Stackup Events</h2>
@@ -164,7 +183,7 @@
 					    </tbody>
 				    </table>
 					
-					<a href="#" class="btn bld spcr-t3 right">Request a Stackup &rsaquo;</a>
+					<a id="mwe" href="/list/6" class="btn bld spcr-t3 right">Request a Stackup &rsaquo;</a>
 				</div>
 				<div class="clr"></div>
 				
@@ -176,7 +195,7 @@
 					<ul id="solutions">
 					</ul>
 					
-					<a href="#" class="btn bld spcr-t3 right">View Solutions &rsaquo;</a>
+					<a id="mps" href="/list/5" class="btn bld spcr-t3 right">View Solutions &rsaquo;</a>
 				</div>
 				<div class="cBxRt">
 					<h2>Most Recent Stackup Events</h2>
@@ -192,7 +211,7 @@
 					    </tbody>
 				    </table>
 					
-					<a href="#" class="btn bld spcr-t3 right">View Stackups &rsaquo;</a>
+					<a id="mre" href="/stackup/events/" class="btn bld spcr-t3 right">View Stackups &rsaquo;</a>
 				</div>
 				<div class="clr"></div>
 				
@@ -219,8 +238,8 @@
 				</tbody>
 			</table>
 			
-			<iframe width="290" height="210" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=465+N+Bernardo+Mountain+View&amp;ie=UTF8&amp;hq=&amp;hnear=465+N+Bernardo+Ave,+Mountain+View,+Santa+Clara,+California+94043&amp;gl=us&amp;t=m&amp;z=14&amp;ll=37.389122,-122.049545&amp;output=embed"></iframe>
-			<p class="smtxt txtrt spcr-n padbtm"><a href="https://maps.google.com/maps?q=465+N+Bernardo+Mountain+View&amp;ie=UTF8&amp;hq=&amp;hnear=465+N+Bernardo+Ave,+Mountain+View,+Santa+Clara,+California+94043&amp;gl=us&amp;t=m&amp;z=14&amp;ll=37.389122,-122.049545&amp;source=embed" target="_blank">Get Directions &rsaquo;</a></p>
+			<iframe id="gmapiframe" width="290" height="210" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?output=embed&amp;q="></iframe>
+			<p class="smtxt txtrt spcr-n padbtm"><a id="gmapa" href="https://maps.google.com/maps?source=embed&amp;q=" target="_blank">Get Directions &rsaquo;</a></p>
 			
 			<div class="clr"></div>
 							
@@ -240,22 +259,22 @@
 		<div class="ftrcol">
 			<h5>About Us</h5>
 			<ul>
-				<li><a href="http://www.campsite.org/about">About Campsite</a></li>
+				<li><a id="about" href="/about">About Campsite</a></li>
 			</ul>
 		</div>
 		<div class="ftrcol">
 			<h5>Campsite</h5>
 			<ul>
-				<li><a href="http://www.campsite.org">Home</a></li>
-				<li><a href="http://www.campsite.org/stackup">StackUp Group</a></li>
-				<li><a href="http://www.campsite.org/contact">Contact Us</a></li>
+				<li><a id="home" href="">Home</a></li>
+				<li><a id="stackupgrp" href="/stackup">StackUp Group</a></li>
+				<li><a id="contact" href="/contact">Contact Us</a></li>
 			</ul>			
 		</div>
 		<div class="ftrcol">		
 			<ul>
-				<li><a href="http://www.campsite.org/login"><strong>SIGN IN</strong></a></li>
-				<li><a href="http://www.campsite.org/account/register"><strong>CREATE AN ACCOUNT</strong></a></li>
-				<li><a href="http://www.campsite.org/stackup/join"><strong>JOIN STACKUP</strong></a></li>
+				<li><a id="signin" href="/login"><strong>SIGN IN</strong></a></li>
+				<li><a id="createaccnt" href="/account/register"><strong>CREATE AN ACCOUNT</strong></a></li>
+				<li><a id="join" href="/stackup/join"><strong>JOIN STACKUP</strong></a></li>
 			</ul>
 			
         </div>

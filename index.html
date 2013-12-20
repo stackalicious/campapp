@@ -94,12 +94,6 @@
 					$("#createaccnt").attr("href", campsiteHost + $("#createaccnt").attr("href"));
 					$("#join").attr("href", campsiteHost + $("#join").attr("href"));
 					
-					$("#mps").attr("href", campsiteHost + $("#mps").attr("href"));
-					$("#mcp").attr("href", campsiteHost + $("#mcp").attr("href"));
-					$("#mre").attr("href", campsiteHost + $("#mre").attr("href"));
-					$("#mwe").attr("href", campsiteHost + $("#mwe").attr("href"));
-					
-					
 					var url = campsiteHost + '/api/groups/16';
 		            $.getJSON(url + '?callback=?', null,
                         function(data) {  
@@ -170,7 +164,7 @@
 					<ul id="problems">
 					</ul>
 					
-					<a id="mcp" href="/list/4" class="btn bld spcr-t3 right">View Problems &rsaquo;</a>
+					<a id="mcp" href="/" class="btn bld spcr-t3 right">View Problems &rsaquo;</a>
 				</div>
 				<div class="cBxRt">
 					<h2>Most Wanted Stackup Events</h2>
@@ -186,7 +180,7 @@
 					    </tbody>
 				    </table>
 					
-					<a id="mwe" href="/list/6" class="btn bld spcr-t3 right">Request a Stackup &rsaquo;</a>
+					<a id="mwe" href="/" class="btn bld spcr-t3 right">Request a Stackup &rsaquo;</a>
 				</div>
 				<div class="clr"></div>
 				
@@ -198,7 +192,7 @@
 					<ul id="solutions">
 					</ul>
 					
-					<a id="mps" href="/list/5" class="btn bld spcr-t3 right">View Solutions &rsaquo;</a>
+					<a id="mps" href="/" class="btn bld spcr-t3 right">View Solutions &rsaquo;</a>
 				</div>
 				<div class="cBxRt">
 					<h2>Most Recent Stackup Events</h2>

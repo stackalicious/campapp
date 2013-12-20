@@ -95,6 +95,7 @@
 					$("#createaccnt").attr("href", campsiteHost + $("#createaccnt").attr("href"));
 					$("#join").attr("href", campsiteHost + $("#join").attr("href"));
 					$("#join2").attr("href", campsiteHost + $("#join2").attr("href"));
+					$("#mre").attr("href", campsiteHost + $("#mre").attr("href"));
 					
 					var url = campsiteHost + '/api/groups/16';
 		            $.getJSON(url + '?callback=?', null,
@@ -105,45 +106,55 @@
                             eventLocationsEs = null;
                                                                        
                             entrySets = data.entrySets;
-                            for (i in entrySets){
-                                var es = entrySets[i];
-                                
-                                if(es.name == 'Solutions') {
-                                    solutionsEs = es;
-					                $("#mps").attr("href", solutionsEs.url);
-                                } else if(es.name == 'Problems') {
-                                    problemsEs = es;
-					                $("#mcp").attr("href", problemsEs.url);
-                                } else if(es.name == 'Possible Events') {
-                                    eventLocationsEs = es;
-					                $("#mwe").attr("href", eventLocationsEs.url);
+                            if(entrySets) {
+                                for (i in entrySets){
+                                    var es = entrySets[i];
+                                    
+                                    if(es.name == 'Solutions') {
+                                        solutionsEs = es;
+					                    $("#mps").attr("href", solutionsEs.url);
+                                    } else if(es.name == 'Problems') {
+                                        problemsEs = es;
+					                    $("#mcp").attr("href", problemsEs.url);
+                                    } else if(es.name == 'Possible Events') {
+                                        eventLocationsEs = es;
+					                    $("#mwe").attr("href", eventLocationsEs.url);
+                                    }
                                 }
                             }
                             
-                            for(i in solutionsEs.entries) {
-                                var entry = solutionsEs.entries[i];
-                                $('#solutions').append('<li><a href="'+entry.url+'">' + entry.name + '</a></li>');
+                            if(solutionsEs) {
+                                for(i in solutionsEs.entries) {
+                                    var entry = solutionsEs.entries[i];
+                                    $('#solutions').append('<li><a href="'+entry.url+'">' + entry.name + '</a></li>');
+                                }
                             }
                             
-                            for(i in problemsEs.entries) {
-                                var entry = problemsEs.entries[i];
-                                $('#problems').append('<li><a href="'+entry.url+'">' + entry.name + '</a></li>');
+                            if(problemsEs) {
+                                for(i in problemsEs.entries) {
+                                    var entry = problemsEs.entries[i];
+                                    $('#problems').append('<li><a href="'+entry.url+'">' + entry.name + '</a></li>');
+                                }
                             }
                             
-                            for(i in eventLocationsEs.entries) {
-                                var entry = eventLocationsEs.entries[i];
-                                $('#locations').append(
-                                    '<tr '+(i%2==0?'class="fill"':'')+'><td><a href="' + entry.url + '">' + entry.name + '</td>' +
-                                    '<td>' + entry.numVotes + '</td></tr>'
-                                );
+                            if(eventLocationsEs) {
+                                for(i in eventLocationsEs.entries) {
+                                    var entry = eventLocationsEs.entries[i];
+                                    $('#locations').append(
+                                        '<tr '+(i%2==0?'class="fill"':'')+'><td><a href="' + entry.url + '">' + entry.name + '</td>' +
+                                        '<td>' + entry.numVotes + '</td></tr>'
+                                    );
+                                }
                             }
                             
-                            for(i in data.pastEvents) {
-                                var event = data.pastEvents[i];
-                                $('#pastEvents').append(
-                                    '<tr '+(i%2==0?'class="fill"':'')+'><td><a href="' + event.url + '">' + event.name + '</a></td>' +
-                                    '<td>' + event.daterange + '</td></tr>'
-                                );
+                            if(data.pastEvents) {
+                                for(i in data.pastEvents) {
+                                    var event = data.pastEvents[i];
+                                    $('#pastEvents').append(
+                                        '<tr '+(i%2==0?'class="fill"':'')+'><td><a href="' + event.url + '">' + event.name + '</a></td>' +
+                                        '<td>' + event.daterange + '</td></tr>'
+                                    );
+                                }
                             }
                             
                             $('#nextEventName').append('<a href="'+data.nextEvent['url']+'">'+data.nextEvent['name']+'</a>');

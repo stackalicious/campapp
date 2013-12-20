@@ -114,10 +114,13 @@
                                 
                                 if(es.name == 'Solutions') {
                                     solutionsEs = es;
+					                $("#mps").attr("href", solutionsEs.url);
                                 } else if(es.name == 'Problems') {
                                     problemsEs = es;
+					                $("#mcp").attr("href", problemsEs.url);
                                 } else if(es.name == 'Possible Events') {
                                     eventLocationsEs = es;
+					                $("#mwe").attr("href", eventLocationsEs.url);
                                 }
                             }
                             

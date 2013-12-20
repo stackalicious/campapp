@@ -49,7 +49,8 @@
 		<div id="topNav">
 			<ul>
 				<li><a id="contact2" href="/contact">Contact Us</a></li>
-				<li><a id="stackupgrp2" href="/stackup">Campsite Group</a></li>
+				<li><a id="join" href="/stackup/join"">Join Stackup</a></li>
+				<li><a id="campsite" href="/">Campsite</a></li>
 			</ul>
 		</div>
 
@@ -84,15 +85,16 @@
 				    	}
 					});
 					
+					$("#campsite").attr("href", campsiteHost);
 					$("#about").attr("href", campsiteHost + $("#about").attr("href"));
 					$("#home").attr("href", campsiteHost + $("#home").attr("href"));
 					$("#contact").attr("href", campsiteHost + $("#contact").attr("href"));
 					$("#contact2").attr("href", campsiteHost + $("#contact2").attr("href"));
 					$("#stackupgrp").attr("href", campsiteHost + $("#stackupgrp").attr("href"));
-					$("#stackupgrp2").attr("href", campsiteHost + $("#stackupgrp2").attr("href"));
 					$("#signin").attr("href", campsiteHost + $("#signin").attr("href"));
 					$("#createaccnt").attr("href", campsiteHost + $("#createaccnt").attr("href"));
 					$("#join").attr("href", campsiteHost + $("#join").attr("href"));
+					$("#join2").attr("href", campsiteHost + $("#join2").attr("href"));
 					
 					var url = campsiteHost + '/api/groups/16';
 		            $.getJSON(url + '?callback=?', null,
@@ -271,7 +273,7 @@
 			<ul>
 				<li><a id="signin" href="/login"><strong>SIGN IN</strong></a></li>
 				<li><a id="createaccnt" href="/account/register"><strong>CREATE AN ACCOUNT</strong></a></li>
-				<li><a id="join" href="/stackup/join"><strong>JOIN STACKUP</strong></a></li>
+				<li><a id="join2" href="/stackup/join"><strong>JOIN STACKUP</strong></a></li>
 			</ul>
 			
         </div>

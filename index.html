@@ -99,10 +99,7 @@
 					
 					var url = campsiteHost + '/api/groups/16';
 		            $.getJSON(url + '?callback=?', null,
-                        function(data) {  
-                            //Get the 'Solutions' entry
-                            solutionsEs = null;
-                            problemsEs = null;
+                        function(data) {
                             eventLocationsEs = null;
                                                                        
                             entrySets = data.entrySets;
@@ -110,30 +107,10 @@
                                 for (i in entrySets){
                                     var es = entrySets[i];
                                     
-                                    if(es.name == 'Solutions') {
-                                        solutionsEs = es;
-					                    $("#mps").attr("href", solutionsEs.url);
-                                    } else if(es.name == 'Problems') {
-                                        problemsEs = es;
-					                    $("#mcp").attr("href", problemsEs.url);
-                                    } else if(es.name == 'Possible Events') {
+                                    if(es.name == 'Possible Events') {
                                         eventLocationsEs = es;
 					                    $("#mwe").attr("href", eventLocationsEs.url);
                                     }
-                                }
-                            }
-                            
-                            if(solutionsEs) {
-                                for(i in solutionsEs.entries) {
-                                    var entry = solutionsEs.entries[i];
-                                    $('#solutions').append('<li><a href="'+entry.url+'">' + entry.name + '</a></li>');
-                                }
-                            }
-                            
-                            if(problemsEs) {
-                                for(i in problemsEs.entries) {
-                                    var entry = problemsEs.entries[i];
-                                    $('#problems').append('<li><a href="'+entry.url+'">' + entry.name + '</a></li>');
                                 }
                             }
                             
@@ -172,14 +149,7 @@
 			</script>
 			
 			<div class="row">
-				<div class="cBxLft">
-					<h2>Most Common Problems</h2>
-					<ul id="problems">
-					</ul>
-					
-					<a id="mcp" href="/" class="btn bld spcr-t3 right">View Problems &rsaquo;</a>
-				</div>
-				<div class="cBxRt">
+				<div >
 					<h2>Most Wanted Stackup Events</h2>
 				
 					<table summary="Most Recent Stackup Events" class="tblStyle">
@@ -200,14 +170,7 @@
 			</div> <!-- end row -->
 			
 			<div class="row">
-				<div class="cBxLft">
-					<h2>Most Popular Solutions</h2>
-					<ul id="solutions">
-					</ul>
-					
-					<a id="mps" href="/" class="btn bld spcr-t3 right">View Solutions &rsaquo;</a>
-				</div>
-				<div class="cBxRt">
+				<div >
 					<h2>Most Recent Stackup Events</h2>
 				
 					<table summary="Most Recent Stackup Events" class="tblStyle">

@@ -96,7 +96,7 @@
                     var address = groupsArray[i]['location'] + " " + 
                                 groupsArray[i]['address1'] + " " + 
                                 groupsArray[i]['address2'];
-                                  
+                       console.log(address);         
                     var name = groupsArray[i]['name'];
                     
                     geocoder.geocode( { 'address': address}, function(results, status) {                        

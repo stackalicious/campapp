@@ -99,7 +99,10 @@
                                   
                     var name = groupsArray[i]['name'];
                     
-                    geocoder.geocode( { 'address': address}, function(results, status) {                        
+                    geocoder.geocode( { 'address': address}, function(results, status) { 
+                        if(results[0] == null)
+                            return;
+                                                   
                         var marker = new google.maps.Marker({
                             title:name,
                             map: map,
@@ -133,7 +136,7 @@
 		    $("#join").attr("href", campsiteHost + $("#join").attr("href"));
 		    $("#join2").attr("href", campsiteHost + $("#join2").attr("href"));
 		    $("#mre").attr("href", campsiteHost + $("#mre").attr("href"));
-		
+		    
 		    var url = campsiteHost + '/api/groups/16';
 		    
 		    $.getJSON(url + '?callback=?', null,
@@ -141,7 +144,17 @@
                     eventLocationsEs = null;
                     
                     $('#description').append(data.description);
-                                                         
+                    
+                    $("#group-link").attr("href", data.url);
+                    console.log(data.avatarPath);
+                    if(data.avatarPath != null) {
+		                $logo = $("#brand-group");
+		                $logo.attr("src", data.avatarPath);
+		                //$logo.attr("width",413);
+		                //$logo.attr("height",64);
+		                $logo.attr("style", "max-height:64px;max-width:413px");
+		            }
+		                      
                     entrySets = data.entrySets;
                     if(entrySets) {
                         for (i in entrySets){
@@ -223,8 +236,8 @@
 		        </ul>
 	        </div>
 	
-	        <a href="http://www.campsite.org/stackup/" target="_blank">
-	            <img src="public/img/logo-stackup2.png" width="413" height="64" alt="" id="brand-group">
+	        <a id="group-link" href="http://www.campsite.org/stackup/" target="_blank">
+	            <img src="" alt="" id="brand-group">
             </a>
 	
 	        <div id="tagline-group" style="top:110px;">

@@ -136,6 +136,7 @@
 		    $("#join").attr("href", campsiteHost + $("#join").attr("href"));
 		    $("#join2").attr("href", campsiteHost + $("#join2").attr("href"));
 		    $("#mre").attr("href", campsiteHost + $("#mre").attr("href"));
+		    $("#mwe").attr("href", campsiteHost + $("#mwe").attr("href"));
 		    
 		    var url = campsiteHost + '/api/groups/16';
 		    
@@ -150,8 +151,6 @@
                     if(data.avatarPath != null) {
 		                $logo = $("#brand-group");
 		                $logo.attr("src", data.avatarPath);
-		                //$logo.attr("width",413);
-		                //$logo.attr("height",64);
 		                $logo.attr("style", "max-height:64px;max-width:413px");
 		            }
 		                      

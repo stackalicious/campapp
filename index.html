@@ -130,12 +130,10 @@
 		    $("#home").attr("href", campsiteHost + $("#home").attr("href"));
 		    $("#contact").attr("href", campsiteHost + $("#contact").attr("href"));
 		    $("#contact2").attr("href", campsiteHost + $("#contact2").attr("href"));
-		    $("#stackupgrp").attr("href", campsiteHost + $("#stackupgrp").attr("href"));
 		    $("#signin").attr("href", campsiteHost + $("#signin").attr("href"));
 		    $("#createaccnt").attr("href", campsiteHost + $("#createaccnt").attr("href"));
 		    $("#join").attr("href", campsiteHost + $("#join").attr("href"));
 		    $("#join2").attr("href", campsiteHost + $("#join2").attr("href"));
-		    $("#mre").attr("href", campsiteHost + $("#mre").attr("href"));
 		    $("#mwe").attr("href", campsiteHost + $("#mwe").attr("href"));
 		    
 		    var url = campsiteHost + '/api/groups/16';
@@ -153,6 +151,12 @@
 		                $logo.attr("src", data.avatarPath);
 		                $logo.attr("style", "max-height:64px;max-width:413px");
 		            }
+		            
+		            $("#mre").attr("href", data.url + "events");
+		            
+		            var group = $("#group");
+                    group.attr("href", data.url);
+                    group.text(data.name);
 		                      
                     entrySets = data.entrySets;
                     if(entrySets) {
@@ -235,7 +239,7 @@
 		        </ul>
 	        </div>
 	
-	        <a id="group-link" href="http://www.campsite.org/stackup/" target="_blank">
+	        <a id="group-link" href="" target="_blank">
 	            <img src="" alt="" id="brand-group">
             </a>
 	
@@ -253,7 +257,7 @@
             <hr>
             
             <div id="contentLftMP">
-                <h2 id="description">Attend StackUp</h2>
+                <h2 id="description"></h2>
 	            
 	            <hr class="clr">
 	            
@@ -268,7 +272,7 @@
 			            </tbody>
 		            </table>
 			
-			        <a id="mwe" href="/list/21" target="_blank" class="btn bld spcr-t3 right">Not Listed? Add It Here &rsaquo;</a>
+			        <a id="mwe" href="" target="_blank" class="btn bld spcr-t3 right">Not Listed? Add It Here &rsaquo;</a>
 		        </div>
 	                
 			</div> <!-- end contentLft -->				
@@ -276,7 +280,7 @@
 		    <div id="contentRtMP">	
 		        
 	            <div id="map">
-                    <h2 class="spcr-b2">Find a StackUp Near You</h2>
+                    <h2 class="spcr-b2">Find Events Near You</h2>
                     <input id="map-location-search" type="text" placeholder="Enter your location" autocomplete="off">
                     <div id="map-canvas"></div>
                 </div>
@@ -292,7 +296,7 @@
 		        
 		        <br/>
 		        
-		        <a id="mre" href="/stackup/events/" target="_blank" class="btn bld right">View StackUps &rsaquo;</a>
+		        <a id="mre" href="" target="_blank" class="btn bld right">View Events &rsaquo;</a>
                 
                 		
 	        </div> <!-- end contentRt -->	
@@ -319,7 +323,7 @@
 		        <h5>Campsite</h5>
 		        <ul>
 			        <li><a id="home" href="">Home</a></li>
-			        <li><a id="stackupgrp" href="/stackup">StackUp Group</a></li>
+			        <li><a id="group" href=""></a></li>
 			        <li><a id="contact" href="/contact">Contact Us</a></li>
 		        </ul>			
 	        </div>

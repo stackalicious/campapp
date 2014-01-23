@@ -1,3 +1,38 @@
+<?php
+    require_once 'Libraries/HPCloud-PHP-master/src/HPCloud/Bootstrap.php';
+    
+    use \HPCloud\Bootstrap;
+    Bootstrap::useAutoloader();
+    Bootstrap::useStreamWrappers();
+    
+    $settings = array(
+        'account'   => '',
+        'secret'    => '',
+        'tenantid'  => '',
+        'endpoint'  => '', 
+    );
+    Bootstrap::setConfiguration($settings);
+    
+    public function writeFile($fileName, $contents)
+    {
+        $newfile = fopen('swift://'.$fileName, 'w');
+        fwrite($newfile, $contents);
+            
+        if ($newfile) {
+            fclose($newfile);
+        } 
+        else {
+            throw new Exception();
+        }
+    }
+    
+    public function readFile($fileName)
+    {
+        return file_get_contents('swift://'.$fileName);
+    }
+    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

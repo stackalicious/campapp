@@ -13,7 +13,7 @@
     );
     Bootstrap::setConfiguration($settings);
     
-    public function writeFile($fileName, $contents)
+    function writeHpObject($fileName, $contents)
     {
         $newfile = fopen('swift://'.$fileName, 'w');
         fwrite($newfile, $contents);
@@ -26,7 +26,7 @@
         }
     }
     
-    public function readFile($fileName)
+    function readHpObject($fileName)
     {
         return file_get_contents('swift://'.$fileName);
     }

@@ -1,35 +1,23 @@
 <?php
-    require_once 'Libraries/HPCloud-PHP-master/src/HPCloud/Bootstrap.php';
-    
-    use \HPCloud\Bootstrap;
-    Bootstrap::useAutoloader();
-    Bootstrap::useStreamWrappers();
-    
-    $settings = array(
-        'account'   => '',
-        'secret'    => '',
-        'tenantid'  => '',
-        'endpoint'  => '', 
-    );
-    Bootstrap::setConfiguration($settings);
-    
-    public function writeFile($fileName, $contents)
-    {
-        $newfile = fopen('swift://'.$fileName, 'w');
-        fwrite($newfile, $contents);
-            
-        if ($newfile) {
-            fclose($newfile);
-        } 
-        else {
-            throw new Exception();
-        }
-    }
-    
-    public function readFile($fileName)
-    {
-        return file_get_contents('swift://'.$fileName);
-    }
+
+require_once 'Libraries/HPCloud-PHP-master/src/HPCloud/Bootstrap.php';
+
+use \HPCloud\Bootstrap;
+use \HPCloud\Services\IdentityServices;
+use \HPCloud\Storage\ObjectStorage;
+Bootstrap::useAutoloader();
+
+# TODO: Read these from a parameters.ini file
+$account            = '';
+$secret             = '';
+$tenantid           = '';
+$idServicesEndpoint = '';
+
+$idService          = new IdentityServices($idServicesEndpoint);
+$token              = $idService->authenticateAsAccount($account, $secret, $tenantid);
+
+$objectServiceStorage   = ObjectStorage::newFromServiceCatalog($idService->serviceCatalog(), $token);
+$photosContainer        = $objectServiceStorage->container('DevOpsWorkshopSF');
     
 ?>
 

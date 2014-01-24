@@ -5,20 +5,39 @@ require_once 'Libraries/HPCloud-PHP-master/src/HPCloud/Bootstrap.php';
 use \HPCloud\Bootstrap;
 use \HPCloud\Services\IdentityServices;
 use \HPCloud\Storage\ObjectStorage;
+use \HPCloud\Storage\ObjectStorage\Object;
 Bootstrap::useAutoloader();
 
-# TODO: Read these from a parameters.ini file
-$account            = '';
-$secret             = '';
-$tenantid           = '';
-$idServicesEndpoint = '';
+$params = parse_ini_file('parameters.ini');
 
-$idService          = new IdentityServices($idServicesEndpoint);
-$token              = $idService->authenticateAsAccount($account, $secret, $tenantid);
+$account  = $params['account'];
+$secret   = $params['secret'];
+$tenantid = $params['tenantid'];
 
-$objectServiceStorage   = ObjectStorage::newFromServiceCatalog($idService->serviceCatalog(), $token);
-$photosContainer        = $objectServiceStorage->container('DevOpsWorkshopSF');
-    
+$idServices           = new IdentityServices('https://region-b.geo-1.identity.hpcloudsvc.com:35357/v2.0/');
+$token                = $idServices->authenticateAsAccount($account, $secret, $tenantid);
+$objectStorageService = ObjectStorage::newFromServiceCatalog($idServices->serviceCatalog(), $token);
+
+function getObjectStorageContainer($store, $containerName)
+{
+    return $store->container($containerName);
+}
+function createObjectStorageContainer($store, $containerName)
+{
+    $store->createContainer($containerName);
+    return $store->container($containerName);
+}
+function getObjectStorageFile($store, $containerName, $fileName)
+{
+    $container = getObjectStorageContainer($store, $containerName);
+    return $container->object($fileName);
+}
+function createObjectStorageFile($store, $containerName, $fileName, $fileContent, $fileMimeType='text/plain')
+{
+    $fileObject = new Object($fileName, $fileContent, $fileMimeType);
+    return getObjectStorageContainer($store, $containerName)->save($fileObject);
+}
+
 ?>
 
 <!DOCTYPE html>

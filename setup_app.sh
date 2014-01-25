@@ -20,7 +20,7 @@ if [ ! -f /etc/apache2/sites-available/$SITE ]; then
       ServerName      $SITE
       DocumentRoot    $PROJ
 
-      DirectoryIndex index.html
+      DirectoryIndex index.php
 
       <Directory $PROJ>
         Options FollowSymLinks

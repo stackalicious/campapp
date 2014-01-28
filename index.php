@@ -6,16 +6,30 @@ use \HPCloud\Bootstrap;
 use \HPCloud\Services\IdentityServices;
 use \HPCloud\Storage\ObjectStorage;
 use \HPCloud\Storage\ObjectStorage\Object;
+use \HPCloud\Transport\UnauthorizedException;
 Bootstrap::useAutoloader();
 
-$params = parse_ini_file('parameters.ini');
+$paramFilename = 'parameters.ini';
 
+if (!file_exists($paramFilename)) {
+     echo "The file $paramFilename does not exist";
+     exit;
+}
+ 
+$params = parse_ini_file($paramFilename);
 $account  = $params['account'];
 $secret   = $params['secret'];
 $tenantid = $params['tenantid'];
+ 
+$idServices = new IdentityServices('https://region-b.geo-1.identity.hpcloudsvc.com:35357/v2.0/');
 
-$idServices           = new IdentityServices('https://region-b.geo-1.identity.hpcloudsvc.com:35357/v2.0/');
-$token                = $idServices->authenticateAsAccount($account, $secret, $tenantid);
+try {
+    $token = $idServices->authenticateAsAccount($account, $secret, $tenantid);
+} catch(UnauthorizedException $e) {
+    echo "Invalid Credentials in $paramFilename";
+    exit;
+}
+
 $objectStorageService = ObjectStorage::newFromServiceCatalog($idServices->serviceCatalog(), $token);
 
 function getObjectStorageContainer($store, $containerName)

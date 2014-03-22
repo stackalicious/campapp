@@ -1,5 +1,5 @@
 <?php
-
+/*
 require_once 'Libraries/HPCloud-PHP-master/src/HPCloud/Bootstrap.php';
 
 use \HPCloud\Bootstrap;
@@ -51,7 +51,7 @@ function createObjectStorageFile($store, $containerName, $fileName, $fileContent
     $fileObject = new Object($fileName, $fileContent, $fileMimeType);
     return getObjectStorageContainer($store, $containerName)->save($fileObject);
 }
-
+*/
 ?>
 
 <!DOCTYPE html>
